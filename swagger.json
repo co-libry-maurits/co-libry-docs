@@ -1,0 +1,3443 @@
+{
+    "swagger": "2.0",
+    "basePath": "/api",
+    "paths": {
+        "/0.4/leads": {
+            "post": {
+                "responses": {
+                    "501": {
+                        "description": "Pop-up method not supported"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Create new lead",
+                "description": "Create a lead in our database and in ActiveCampaign/Twilio",
+                "operationId": "post_leads",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/NewLead"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Leads"
+                ]
+            }
+        },
+        "/0.4/leads/_post": {
+            "post": {
+                "responses": {
+                    "501": {
+                        "description": "Pop-up method not supported"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Create new lead",
+                "description": "Create a lead in our database and in ActiveCampaign/Twilio",
+                "operationId": "post_leads_post_form",
+                "parameters": [
+                    {
+                        "name": "pop-up_method",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "enum": [
+                            "email",
+                            "browser"
+                        ]
+                    },
+                    {
+                        "name": "cookie_id",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "Cookie ID of the lead"
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "E-mail address of the lead"
+                    },
+                    {
+                        "name": "notification_address",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Address for the browser notification"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Telephone number of the lead"
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "consumes": [
+                    "application/x-www-form-urlencoded",
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "Leads"
+                ]
+            }
+        },
+        "/0.4/leads/recommendations": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Get recommendations for lead",
+                "description": "Get recommendations for a lead based on a user_id or listing_id.\nI we have recommendations for the user_id, those will be returned.\nIf not, we will return recommendations for the listing_id.\nIf there are no listing recommendations, we return random ones.",
+                "operationId": "get_lead_recommendation",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Return recommendations for this user"
+                    },
+                    {
+                        "name": "listing_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Return recommendations for this listing"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "Maximum number of results to return (max. 10)",
+                        "default": 3
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Leads"
+                ]
+            }
+        },
+        "/0.4/leads/{activecampaign_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "ActiveCampaign ID of the user",
+                    "name": "activecampaign_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "Contact not found"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    },
+                    "200": {
+                        "description": "Successfully updated"
+                    }
+                },
+                "summary": "Update leads",
+                "description": "Update the contacts in ActiveCampaign",
+                "operationId": "put_lead",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Lead"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Leads"
+                ]
+            }
+        },
+        "/0.4/leads/{activecampaign_id}/_put": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "ActiveCampaign ID of the user",
+                    "name": "activecampaign_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "404": {
+                        "description": "Contact not found"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    },
+                    "200": {
+                        "description": "Successfully updated"
+                    }
+                },
+                "summary": "Update leads",
+                "description": "Update the contacts in ActiveCampaign",
+                "operationId": "post_lead_put_form",
+                "parameters": [
+                    {
+                        "name": "listing_address",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Address of the listing"
+                    },
+                    {
+                        "name": "zipcode",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Zipcode of the listing"
+                    },
+                    {
+                        "name": "commune",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Commune of the listing"
+                    },
+                    {
+                        "name": "transaction_type",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Transaction type of the listing"
+                    },
+                    {
+                        "name": "listing_url",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "URL of the listing"
+                    },
+                    {
+                        "name": "image_listing",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Image URL of the listing"
+                    },
+                    {
+                        "name": "listing_price",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Price of the listing"
+                    },
+                    {
+                        "name": "listing_surface",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Building surface of the listing"
+                    },
+                    {
+                        "name": "property_surface",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Property surface of the listing"
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Title of the listing"
+                    },
+                    {
+                        "name": "listing_type",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Type of the listing"
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "consumes": [
+                    "application/x-www-form-urlencoded",
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "Leads"
+                ]
+            }
+        },
+        "/0.4/listings/job": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ListingQueryResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Query listings",
+                "description": "Retrieve listings matching the given query.\nThe results are paginated (see `size` and `after`).\nThe returned listings are sorted by id.",
+                "operationId": "get_listing_job",
+                "parameters": [
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Return results after the given \"id\" (for pagination)"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "Maximum number of results to return (max. 10000)",
+                        "default": 100
+                    },
+                    {
+                        "name": "nlp",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Comma separated list of NLP keywords you want to query on"
+                    },
+                    {
+                        "name": "full_listing",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Only show the ids and not the entire listing",
+                        "default": false
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Job Listings"
+                ]
+            }
+        },
+        "/0.4/listings/job/{listing_id}": {
+            "parameters": [
+                {
+                    "description": "Listing ID within Co-libry",
+                    "name": "listing_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "No listing_id found for this customer"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Retrieve a listings by id",
+                "description": "Retrieve a listing matching the given listing_id.",
+                "operationId": "get_listingid_job",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Job Listings"
+                ]
+            }
+        },
+        "/0.4/listings/real-estate": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ListingQueryResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Query listings",
+                "description": "Retrieve listings matching the given query.\nThe results are paginated (see `size` and `after`).\nThe returned listings are sorted by id.",
+                "operationId": "get_listing_immo",
+                "parameters": [
+                    {
+                        "name": "min_listings",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "Total number of listing which should minimally be returned. The results of the search engine will be enriched with recommendations. Maximum filled up until the number given in size, it is possible that there are not enough recommendations leading to a lower amount returned."
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "Maximum number of results to return (max. 10000)",
+                        "default": 100
+                    },
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Return results after the given \"id\" (for pagination)"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "type": "array",
+                        "description": "Search will only return the fields specified here.\nYou can add all fields as a , separated list e.g:\nfilter=profile.contacts,third_party.schools.score,source.listing_url will return data for these 3 fields.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "client_type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "updated_by_colibry",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use UTC ISO-8601 date/time notation with separators, Use comma for ranges:\n\"2020-01-01,\": on Jan. 1st or later,\n\"2020-01-01T14:00,2020-01-01T15:00\": on Jan. 1st between 2 and 3 p.m. UTC."
+                    },
+                    {
+                        "name": "source.customer",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.listing_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.listing_url",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.publication_date",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use UTC ISO-8601 date/time notation with separators, Use comma for ranges:\n\"2020-01-01,\": on Jan. 1st or later,\n\"2020-01-01T14:00,2020-01-01T15:00\": on Jan. 1st between 2 and 3 p.m. UTC."
+                    },
+                    {
+                        "name": "source.contact.company",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.contact.website",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.contact.phone",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.contact.email",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.contact.id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.contact.address.street",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.contact.address.number",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "source.contact.address.zip",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.contact.address.city",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "source.contact.address.country",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.subtype",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.status",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on one of the allowed values",
+                        "enum": [
+                            "AVAILABLE",
+                            "UNAVAILABLE",
+                            "SOLD",
+                            "RENTED",
+                            "INOPTION"
+                        ]
+                    },
+                    {
+                        "name": "original.listing.rooms.bedrooms.count",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.rooms.bathrooms",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.rooms.toilets",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.building.floors",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.building.construction_year",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.building.renovation_year",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.building.has_balcony",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Use \"true\" or \"false\" to match"
+                    },
+                    {
+                        "name": "original.listing.building.has_garden",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Use \"true\" or \"false\" to match"
+                    },
+                    {
+                        "name": "original.listing.building.parking_type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on one of the allowed values",
+                        "enum": [
+                            "UNKNOWN",
+                            "PUBLIC",
+                            "DRIVEWAY",
+                            "GARAGE",
+                            "UNDERGROUND"
+                        ]
+                    },
+                    {
+                        "name": "original.listing.building.garden_orientation",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on one of the allowed values",
+                        "enum": [
+                            "UNKNOWN",
+                            "N",
+                            "NE",
+                            "E",
+                            "SE",
+                            "S",
+                            "SW",
+                            "W",
+                            "NW"
+                        ]
+                    },
+                    {
+                        "name": "original.listing.building.parking_spaces",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.surface.living",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.surface.build",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.surface.plot",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.coordinates.lat",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.coordinates.lon",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.address.address_line_1",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.address_line_2",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.street",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.number",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.address.house_number",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.bus",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.floor",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.address.zipcode",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.city",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.district",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.province",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.province_code",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.state",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.region",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.touristic_region",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.neighbourhood",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.address.country",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.energy.epc.score",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.energy.epc.ref_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.energy.epb.score",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.listing.energy.epb.ref_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.energy.label",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.energy.heating_type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.energy.isolation_type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.listing.condition",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on one of the allowed values",
+                        "enum": [
+                            "NEW",
+                            "GOODCONDITION",
+                            "PERFECTCONDITION",
+                            "TORENOVATE",
+                            "RENOVATED"
+                        ]
+                    },
+                    {
+                        "name": "original.offering.created",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use UTC ISO-8601 date/time notation with separators, Use comma for ranges:\n\"2020-01-01,\": on Jan. 1st or later,\n\"2020-01-01T14:00,2020-01-01T15:00\": on Jan. 1st between 2 and 3 p.m. UTC."
+                    },
+                    {
+                        "name": "original.offering.last_updated",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use UTC ISO-8601 date/time notation with separators, Use comma for ranges:\n\"2020-01-01,\": on Jan. 1st or later,\n\"2020-01-01T14:00,2020-01-01T15:00\": on Jan. 1st between 2 and 3 p.m. UTC."
+                    },
+                    {
+                        "name": "original.offering.address_displayed",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Use \"true\" or \"false\" to match"
+                    },
+                    {
+                        "name": "original.offering.price_displayed",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Use \"true\" or \"false\" to match"
+                    },
+                    {
+                        "name": "original.offering.status",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use \"true\", \"false\" or \"all\" to match",
+                        "default": "true",
+                        "enum": [
+                            "true",
+                            "false",
+                            "all"
+                        ]
+                    },
+                    {
+                        "name": "original.offering.available",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Use \"true\" or \"false\" to match"
+                    },
+                    {
+                        "name": "original.offering.language",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.title",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.description.content",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.description.descr_properties",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.bg",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.ca",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.cs",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.da",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.de",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.el",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.en",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.es",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.et",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.fi",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.fr",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.hi",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.hu",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.it",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.ja",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.ko",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.lt",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.lv",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.nl",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.no",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.pl",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.pt",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.ro",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.ru",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.sk",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.sl",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.sv",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.th",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.tr",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.uk",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.vi",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.titles.zh",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.bg",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.ca",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.cs",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.da",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.de",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.el",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.en",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.es",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.et",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.fi",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.fr",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.hi",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.hu",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.it",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.ja",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.ko",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.lt",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.lv",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.nl",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.no",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.pl",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.pt",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.ro",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.ru",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.sk",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.sl",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.sv",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.th",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.tr",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.uk",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.vi",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.descriptions.zh",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.offering.is_furnished",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Use \"true\" or \"false\" to match"
+                    },
+                    {
+                        "name": "original.offering.type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on one of the allowed values",
+                        "enum": [
+                            "SALE",
+                            "RENT"
+                        ]
+                    },
+                    {
+                        "name": "original.offering.high_prio_ordering",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Use \"true\" or \"false\" to match"
+                    },
+                    {
+                        "name": "original.costs.sales_price",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.costs.rental_price",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.costs.currency",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.costs.rental_frequency",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on one of the allowed values",
+                        "enum": [
+                            "DAILY",
+                            "WEEKLY",
+                            "MONTHLY",
+                            "YEARLY"
+                        ]
+                    },
+                    {
+                        "name": "original.costs.tax",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "original.costs.general",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "original.characteristics",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "third_party.parks.value",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "third_party.parks.score",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "third_party.parks.version",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "third_party.schools.value",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "third_party.schools.score",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "third_party.schools.version",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "third_party.public_transportation.value",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "third_party.public_transportation.score",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "third_party.public_transportation.version",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "third_party.mobiscore.value",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "third_party.mobiscore.score",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "third_party.mobiscore.version",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "derived.nlp.characteristics",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "derived.image.object_detected",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "profile.views",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.pictures",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.contacts",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.conversion_rate",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.time_viewed",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Real Estate Listings"
+                ]
+            },
+            "post": {
+                "responses": {
+                    "409": {
+                        "description": "A listing with the given ID already exists"
+                    },
+                    "400": {
+                        "description": "Cannot map the body to Co-libry's template"
+                    },
+                    "201": {
+                        "description": "Created (returns the mapped model in the response)"
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Add a listing to Co-libry's database",
+                "description": "Map and add a given listing in Co-libry's database.\nThe listing should be in the customer's template.\nThe listing is mapped to Co-libry's template.\nThe mapped listing is returned in the response.",
+                "operationId": "post_listings",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/AnyListing"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Real Estate Listings"
+                ]
+            }
+        },
+        "/0.4/listings/real-estate/recommend": {
+            "post": {
+                "responses": {
+                    "404": {
+                        "description": "No listing_id in recommendations not found for this customer"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Retrieve a recommendations by ids",
+                "description": "Retrieve a recommendations matching the given listing_ids.",
+                "operationId": "post_recommend",
+                "parameters": [
+                    {
+                        "name": "score_threshold",
+                        "in": "query",
+                        "type": "number",
+                        "description": "Threshold above which recommendations are given",
+                        "default": 0.5
+                    },
+                    {
+                        "name": "full_listing",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Whether the result is the listing id or the full listing",
+                        "default": false
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/GetRecommendations"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Real Estate Listings"
+                ]
+            }
+        },
+        "/0.4/listings/real-estate/recommend/_post": {
+            "post": {
+                "responses": {
+                    "404": {
+                        "description": "No listing_id in recommendations not found for this customer"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Retrieve a recommendations by ids",
+                "description": "Retrieve a recommendations matching the given listing_ids.",
+                "operationId": "post_recommend_post_form",
+                "parameters": [
+                    {
+                        "name": "score_threshold",
+                        "in": "query",
+                        "type": "number",
+                        "description": "Threshold above which recommendations are given",
+                        "default": 0.5
+                    },
+                    {
+                        "name": "full_listing",
+                        "in": "query",
+                        "type": "boolean",
+                        "description": "Whether the result is the listing id or the full listing",
+                        "default": false
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "listing_ids",
+                        "in": "formData",
+                        "type": "array",
+                        "required": true,
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "consumes": [
+                    "application/x-www-form-urlencoded",
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "Real Estate Listings"
+                ]
+            }
+        },
+        "/0.4/listings/real-estate/seo": {
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Url was not found in the database"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Retrieve a listing ids by Url",
+                "description": "Retrieve a list of listings ids matching the given seo url.",
+                "operationId": "get_seo",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The url of the landing page, used to fetch the required listing ids."
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Real Estate Listings"
+                ]
+            }
+        },
+        "/0.4/listings/real-estate/{listing_id}": {
+            "parameters": [
+                {
+                    "description": "Listing ID within Co-libry",
+                    "name": "listing_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "No listing_id found for this customer"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_id provided"
+                    }
+                },
+                "summary": "Retrieve a listings by id",
+                "description": "Retrieve a listing matching the given listing_id.",
+                "operationId": "get_listingid_immo",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Real Estate Listings"
+                ]
+            }
+        },
+        "/0.4/predict/nlp": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Apply NLP prediction",
+                "description": "Apply an NLP prediction for the given text string.\nSupported languages are en, es, fr, nl.",
+                "operationId": "post_predict_nlp",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "text": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Prediction"
+                ]
+            }
+        },
+        "/0.4/tasks/create-lead/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a create-lead task",
+                "description": "Launch the App Engine task create-lead job.\nCreate a lead in our database and in ActiveCampaign/Twilio.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_create_lead_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/CreateLeadTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/data-lead-dashboard/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a data-lead-dashboard task",
+                "description": "Launch the App Engine task data-lead-dashboard job.\nCombining the data for the lead dashboard\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_data_lead_dashboard_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/DataLeadDashboardTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/dummy-data/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a dummy-data task",
+                "description": "Launch the App Engine task dummy-data job.\nThis runs an empty \"data\" Google Cloud Task on the Google App Engine.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_dummy_data_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/DummyDataTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/dummy-dataproc/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a dummy-dataproc task",
+                "description": "Launch the Dataproc task dummy-dataproc job.\nThis runs an empty Dataproc job.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_dummy_dataproc_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/DummyDataprocTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/dummy-worker/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a dummy-worker task",
+                "description": "Launch the App Engine task dummy-worker job.\nThis runs an empty \"worker\" Google Cloud Task on the Google App Engine.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_dummy_worker_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/match-new-listing/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a match-new-listing task",
+                "description": "Launch the App Engine task match-new-listing job.\nChecks if there is a new listing in the database and updates matching users in ActiveCampaign/Twilio.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_match_new_listing_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/nightly-tests/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a nightly-tests task",
+                "description": "Launch the App Engine task nightly-tests job.\nRun test to validate the results of the nightly scheduled jobs\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_nightly_tests_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/nlp-enrichment/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a nlp-enrichment task",
+                "description": "Launch the Dataproc task nlp-enrichment job.\nEnriches the most recent listings from the elasticsearch database.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_nlp_enrichment_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/postprocess-recommendations/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a postprocess-recommendations task",
+                "description": "Launch the App Engine task postprocess-recommendations job.\nPostprocess recommendations\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_postprocess_recommendations_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/preprocessing-pageviews/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a preprocessing-pageviews task",
+                "description": "Launch the Dataproc task preprocessing-pageviews job.\nUser data from Google Analytics or SnowPlow will be prepared for for the profiling and segmentation.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_preprocessing_pageviews_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/PreprocessingPageviewsTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/profiling/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a profiling task",
+                "description": "Launch the Dataproc task profiling job.\nApplies profiling on preprocessed user data.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_profiling_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ProfilingTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/pull-listings/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a pull-listings task",
+                "description": "Launch the App Engine task pull-listings job.\nPull the listings from a customer, and parse and store them.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_pull_listings_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/PullListingsTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/recommendation/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a recommendation task",
+                "description": "Launch the Dataproc task recommendation job.\nGenerates recommendations for the listings.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_recommendation_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/RecommendationTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/seo/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a seo task",
+                "description": "Launch the Dataproc task seo job.\nGenerates and checks SEO combinations and sitemap.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_seo_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/user-activity/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a user-activity task",
+                "description": "Launch the Dataproc task user-activity job.\nProcessed user data will be aggregated to activity profiles and customer journeys.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_user_activity_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/UserActivityTaskArguments"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/user-recommendation/run": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Run a user-recommendation task",
+                "description": "Launch the Dataproc task user-recommendation job.\nGenerates recommendations for the users.\nReturns a task_id, which can be used to retrieve the status.",
+                "operationId": "post_user_recommendation_task_runner",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/tasks/{task_name}/{task_id}": {
+            "parameters": [
+                {
+                    "description": "The name of the task of the /run endpoint",
+                    "name": "task_name",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Task ID returned by the /run endpoint",
+                    "name": "task_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Given task_id is not found"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/TaskResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Retrieve the status of a task",
+                "description": "given the provided task_id.",
+                "operationId": "get_task",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Tasks"
+                ]
+            }
+        },
+        "/0.4/users": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UserQueryResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Query users",
+                "description": "Retrieve users matching the given query.\nThe results are paginated (see `size` and `after`).\nThe returned users are sorted by id.",
+                "operationId": "get_users",
+                "parameters": [
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "Maximum number of results to return (max. 10000)",
+                        "default": 100
+                    },
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Return results after the given \"id\" (for pagination)"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "type": "array",
+                        "description": "Search will only return the fields specified here.\nYou can add all fields as a , separated list e.g:\nfilter=profile.contacts,third_party.schools.score,source.listing_url will return data for these 3 fields.",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv"
+                    },
+                    {
+                        "name": "last_updated",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use UTC ISO-8601 date/time notation with separators, Use comma for ranges:\n\"2020-01-01,\": on Jan. 1st or later,\n\"2020-01-01T14:00,2020-01-01T15:00\": on Jan. 1st between 2 and 3 p.m. UTC."
+                    },
+                    {
+                        "name": "activity.avg_time_on_site",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "activity.language",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "activity.last_visit",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use UTC ISO-8601 date/time notation with separators, Use comma for ranges:\n\"2020-01-01,\": on Jan. 1st or later,\n\"2020-01-01T14:00,2020-01-01T15:00\": on Jan. 1st between 2 and 3 p.m. UTC."
+                    },
+                    {
+                        "name": "activity.nb_sessions",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "activity.platform",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "activity.timezone",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Matches on substring"
+                    },
+                    {
+                        "name": "activity.contact",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Number of contacts with brokers.\nUse comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "activity.detail",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Number of visits of listing details.\nUse comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "activity.home",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Number of visits of the home page.\nUse comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "activity.news",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Number of visits of the news page.\nUse comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "activity.picture",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Number of listing pictures viewed.\nUse comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "activity.search",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Number of searches performed.\nUse comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "activity.vr_tour",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Number of VR tours taken.\nUse comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.costs.rental_price.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.costs.rental_price.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.costs.rental_price.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.costs.sales_price.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.costs.sales_price.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.costs.sales_price.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.building.construction_year.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.building.construction_year.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.building.construction_year.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.condition.GOODCONDITION.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.condition.PERFECTCONDITION.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.condition.TORENOVATE.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.coordinates.lon.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.coordinates.lon.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.coordinates.lon.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.coordinates.lat.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.coordinates.lat.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.coordinates.lat.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.rooms.bathrooms.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.rooms.bathrooms.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.rooms.bathrooms.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.rooms.bedrooms.count.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.rooms.bedrooms.count.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.listing.rooms.bedrooms.count.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.surface.living.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.surface.living.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.surface.living.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.surface.plot.min",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.surface.plot.max",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.surface.plot.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.offering.type.RENT.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "profile.original.offering.type.SALE.sum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Use comma for ranges:\n\"3,8\": between 3 and 8 included,\n\"3,\": 3 or more,\n\",8\": 8 or less."
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ]
+            }
+        },
+        "/0.4/users/{user_id}": {
+            "parameters": [
+                {
+                    "description": "User ID within Co-libry (typically cookie ID",
+                    "name": "user_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "No user_id found for this customer"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Invalid customer_type for this client"
+                    },
+                    "401": {
+                        "description": "Invalid JWT token"
+                    }
+                },
+                "summary": "Retrieve a user by id",
+                "description": "Retrieve a user matching the given user_id.",
+                "operationId": "get_user",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "type": "string",
+                        "required": true,
+                        "description": "The customer's id to apply the request to"
+                    }
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Co-libry API (co-libry)",
+        "version": "0.4",
+        "description": "Co-libry API accessible for customers"
+    },
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "key",
+            "in": "query"
+        }
+    },
+    "tags": [
+        {
+            "name": "Real Estate Listings",
+            "description": "Query and manage listings"
+        },
+        {
+            "name": "Job Listings",
+            "description": "Query and manage listings"
+        },
+        {
+            "name": "Users",
+            "description": "Query and manage users"
+        },
+        {
+            "name": "Tasks",
+            "description": "Launch and manage long running tasks"
+        },
+        {
+            "name": "Leads",
+            "description": "Store the content of lead_generation in the database"
+        },
+        {
+            "name": "Prediction",
+            "description": "Predict with Co-libry's AI models"
+        }
+    ],
+    "definitions": {
+        "AnyListing": {
+            "properties": {
+                "*": {
+                    "type": "number",
+                    "example": "*"
+                }
+            },
+            "type": "object"
+        },
+        "ListingQueryResponse": {
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "description": "Number of listings matching the query (max. 10000)",
+                    "example": 20,
+                    "minimum": 0,
+                    "maximum": 10000
+                },
+                "hits": {
+                    "type": "array",
+                    "description": "List of matching listing objects",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "GetRecommendations": {
+            "required": [
+                "listing_ids"
+            ],
+            "properties": {
+                "listing_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "UserQueryResponse": {
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "description": "Number of users matching the query (max. 10000)",
+                    "example": 20,
+                    "minimum": 0,
+                    "maximum": 10000
+                },
+                "hits": {
+                    "type": "array",
+                    "description": "List of matching users",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "DummyDataprocTaskArguments": {
+            "properties": {
+                "some_arg": {
+                    "type": "string",
+                    "description": "Some argument",
+                    "default": "foo"
+                }
+            },
+            "type": "object"
+        },
+        "TaskResponse": {
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": "Name of the customer"
+                },
+                "task_name": {
+                    "type": "string",
+                    "description": "Name of the invoked task as in /tasks/run/{task_name}"
+                },
+                "task_id": {
+                    "type": "string",
+                    "description": "ID of the task, to be retrieved with /tasks/{task_id}"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Status of task: SUBMITTED, IN_PROGRESS, ERROR, DONE"
+                }
+            },
+            "type": "object"
+        },
+        "PreprocessingPageviewsTaskArguments": {
+            "properties": {
+                "query_start": {
+                    "type": "string",
+                    "description": "The day/timestamp you want the start of your data. \"auto\" means since last run.",
+                    "default": "auto"
+                }
+            },
+            "type": "object"
+        },
+        "ProfilingTaskArguments": {
+            "properties": {
+                "query_start": {
+                    "type": "string",
+                    "description": "The day/timestamp you want the start of your data. \"auto\" means since last run.",
+                    "default": "auto"
+                }
+            },
+            "type": "object"
+        },
+        "RecommendationTaskArguments": {
+            "properties": {
+                "model_name": {
+                    "type": "string",
+                    "description": "The model used for l2r",
+                    "default": "20200512"
+                }
+            },
+            "type": "object"
+        },
+        "UserActivityTaskArguments": {
+            "properties": {
+                "query_start": {
+                    "type": "string",
+                    "description": "The day/timestamp you want the start of your data. The task will take all the users since this moment and compute their journey. \"auto\" means since last run.",
+                    "default": "auto"
+                }
+            },
+            "type": "object"
+        },
+        "DataLeadDashboardTaskArguments": {
+            "properties": {
+                "query_day": {
+                    "type": "string",
+                    "description": "The day (YYYY-MM-DD) you want to compute the dashboard data for (yesterday if not provided)",
+                    "default": "yesterday"
+                }
+            },
+            "type": "object"
+        },
+        "DummyDataTaskArguments": {
+            "properties": {
+                "some_arg": {
+                    "type": "string",
+                    "description": "Some argument",
+                    "default": "foo"
+                }
+            },
+            "type": "object"
+        },
+        "CreateLeadTaskArguments": {
+            "required": [
+                "cookie_id",
+                "method"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "example": "email",
+                    "enum": [
+                        "email",
+                        "browser"
+                    ]
+                },
+                "cookie_id": {
+                    "type": "string",
+                    "description": "Cookie ID of the lead"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "E-mail address of the lead"
+                },
+                "notification_address": {
+                    "type": "string",
+                    "description": "Address for the browser notification"
+                },
+                "phone": {
+                    "type": "string",
+                    "description": "Telephone number of the lead"
+                }
+            },
+            "type": "object"
+        },
+        "PullListingsTaskArguments": {
+            "properties": {
+                "max_age": {
+                    "type": "string",
+                    "description": "Time period since last update of the listing or since last run (as kwargs of dateutil.relativedelta). \"inf\" is allowed to fetch all listings. Examples: \"hours=25\" is 25 hours in the past, \"hour=0,minute=0,second=0,microsecond=0\" is at midnight."
+                },
+                "ref": {
+                    "type": "string",
+                    "description": "\"last_run\": max_age is relative to last run. \"listing_time\": max_age is relative to the listing timestamp."
+                },
+                "skip_store_query_time": {
+                    "type": "boolean",
+                    "description": "If True, then the query_time won't be stored in the Elasticsearch index \"timing_tasks\"."
+                }
+            },
+            "type": "object"
+        },
+        "NewLead": {
+            "required": [
+                "cookie_id",
+                "pop-up_method"
+            ],
+            "properties": {
+                "pop-up_method": {
+                    "type": "string",
+                    "example": "email",
+                    "enum": [
+                        "email",
+                        "browser"
+                    ]
+                },
+                "cookie_id": {
+                    "type": "string",
+                    "description": "Cookie ID of the lead"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "E-mail address of the lead"
+                },
+                "notification_address": {
+                    "type": "string",
+                    "description": "Address for the browser notification"
+                },
+                "phone": {
+                    "type": "string",
+                    "description": "Telephone number of the lead"
+                }
+            },
+            "type": "object"
+        },
+        "Lead": {
+            "properties": {
+                "listing_address": {
+                    "type": "string",
+                    "description": "Address of the listing"
+                },
+                "zipcode": {
+                    "type": "string",
+                    "description": "Zipcode of the listing"
+                },
+                "commune": {
+                    "type": "string",
+                    "description": "Commune of the listing"
+                },
+                "transaction_type": {
+                    "type": "string",
+                    "description": "Transaction type of the listing"
+                },
+                "listing_url": {
+                    "type": "string",
+                    "description": "URL of the listing"
+                },
+                "image_listing": {
+                    "type": "string",
+                    "description": "Image URL of the listing"
+                },
+                "listing_price": {
+                    "type": "string",
+                    "description": "Price of the listing"
+                },
+                "listing_surface": {
+                    "type": "string",
+                    "description": "Building surface of the listing"
+                },
+                "property_surface": {
+                    "type": "string",
+                    "description": "Property surface of the listing"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title of the listing"
+                },
+                "listing_type": {
+                    "type": "string",
+                    "description": "Type of the listing"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        },
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }
+    },
+    "host": "co-libry-services.appspot.com",
+    "x-google-endpoints": [
+        {
+            "name": "co-libry-services.appspot.com",
+            "allowCors": true
+        }
+    ]
+}
